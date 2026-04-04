@@ -39,7 +39,7 @@
 
         .btn-reset { width: 100%; background: #ef5350; color: white; border: none; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
 
-        /* 🔥 Anti‑zoom iPhone */
+        /* 🔥 Anti‑zoom iPhone definitivo */
         input, select, button {
             font-size: 16px !important;
         }
@@ -105,7 +105,7 @@
             <span class="label-text">${formatearEtiqueta(v)}</span>
             <div class="controls">
                 <button class="btn-qty" onclick="modificar('${v}', -1)">-</button>
-                <input type="number" inputmode="numeric" id="val-${v}" value="" placeholder="0" oninput="calcular()">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="val-${v}" value="" placeholder="0" oninput="calcular()">
                 <button class="btn-qty btn-plus" onclick="modificar('${v}', 1)">+</button>
             </div>`;
         container.appendChild(row);
