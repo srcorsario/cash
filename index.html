@@ -2,40 +2,55 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Cierre de Caja - Etiquetas Claras</title>
+
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #eceff1; padding: 10px; margin: 0; color: #37474f; }
         .card { background: white; padding: 15px; border-radius: 16px; max-width: 500px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         h2 { text-align: center; margin: 5px 0 15px; font-size: 1.2em; color: #263238; }
         select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #cfd8dc; font-size: 1.1em; font-weight: bold; background: #fff; outline: none; }
+
         .section-title { background: #546e7a; color: white; padding: 5px 10px; border-radius: 6px; font-size: 0.85em; font-weight: bold; margin: 15px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
+
         .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; background: #f9f9f9; padding: 8px; border-radius: 10px; border: 1px solid #eee; }
         .label-text { font-weight: bold; font-size: 1.1em; flex: 1; }
         .controls { display: flex; align-items: center; gap: 8px; }
+
         .btn-qty { width: 44px; height: 44px; border-radius: 8px; border: none; background: #e0e0e0; font-size: 1.4em; font-weight: bold; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .btn-plus { background: #81c784; color: white; }
         .btn-qty:active { opacity: 0.7; transform: scale(0.95); }
+
         input { width: 65px; padding: 10px 0; border: 1px solid #cfd8dc; border-radius: 8px; text-align: center; font-size: 1.2em; font-weight: bold; background: white; color: #263238; }
-        
+
         .reparto-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .reparto-box { padding: 12px; border-radius: 10px; font-size: 0.82em; min-height: 120px; display: flex; flex-direction: column; }
         .box-fondo { background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; }
         .box-sobre { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; }
+
         .reparto-title { font-weight: bold; text-align: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px; text-transform: uppercase; font-size: 0.75em; }
         .item-reparto { display: flex; justify-content: space-between; margin-bottom: 4px; font-family: 'Courier New', monospace; border-bottom: 1px dotted rgba(0,0,0,0.1); padding: 2px 0; }
         .item-val { font-weight: bold; }
-        
+
         .suma-reparto { margin-top: auto; font-weight: 900; text-align: right; border-top: 2px solid rgba(0,0,0,0.1); padding-top: 6px; font-size: 1.1em; }
+
         .total-box { background: #263238; color: white; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; }
         .total-val { font-size: 1.8em; font-weight: bold; color: #81d4fa; display: block; }
+
         .btn-reset { width: 100%; background: #ef5350; color: white; border: none; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+
+        /* 🔥 Anti‑zoom iPhone */
+        input, select, button {
+            font-size: 16px !important;
+        }
     </style>
 </head>
+
 <body>
 
 <div class="card">
     <h2>Cierre de Caja</h2>
+
     <select id="pvd" onchange="cambioPuntoVenta()">
         <option value="200">RG y UsOpen (Fondo 200€)</option>
         <option value="400">Cafetería (Fondo 400€)</option>
@@ -55,19 +70,20 @@
             <div id="lista-fondo" style="flex-grow: 1;"></div>
             <div class="suma-reparto" id="suma-fondo">0.00 €</div>
         </div>
+
         <div class="reparto-box box-sobre">
             <div class="reparto-title">Meter al Sobre</div>
             <div id="lista-sobre" style="flex-grow: 1;"></div>
             <div class="suma-reparto" id="suma-sobre">0.00 €</div>
         </div>
     </div>
+
     <button class="btn-reset" onclick="resetear(true)">Limpiar Todo</button>
 </div>
 
 <script>
     const valoresDesc = [50, 20, 10, 5, 2, 1, 0.50, 0.20, 0.10, 0.05, 0.02, 0.01];
 
-    // Función para formatear la etiqueta (ej: 0.50 -> 50 cts)
     function formatearEtiqueta(v) {
         if (v >= 1) return v + " €";
         return Math.round(v * 100) + " cts";
@@ -123,7 +139,6 @@
         let desgloseSobre = {};
         let restanteRecaudacion = recaudacionObjetivo;
 
-        // EXTRAER PARA EL SOBRE (Billetes grandes primero)
         valoresDesc.forEach(v => {
             let cantDisponible = inventario[v];
             let paraSobre = 0;
@@ -168,6 +183,7 @@
     }
 
     function cambioPuntoVenta() { resetear(false); }
+
     function resetear(conf) {
         if (!conf || confirm("¿Borrar todos los datos actuales?")) {
             document.querySelectorAll('input').forEach(i => i.value = "");
@@ -176,5 +192,6 @@
         }
     }
 </script>
+
 </body>
 </html>
