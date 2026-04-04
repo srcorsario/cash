@@ -58,7 +58,7 @@
 
         .reparto-title { font-weight: bold; text-align: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px; text-transform: uppercase; font-size: 0.75em; }
 
-        /* 🔥 Aumentamos tamaño de los importes */
+        /* 🔥 Aumentamos tamaño de los importes + decimales estrechos */
         .item-reparto { 
             display: flex; 
             justify-content: space-between; 
@@ -72,6 +72,13 @@
             font-weight: bold; 
             font-size: 1.25em; 
             color: #000;
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum";
+        }
+
+        .dec {
+            font-size: 0.75em;
+            opacity: 0.8;
         }
 
         .suma-reparto { 
@@ -82,6 +89,8 @@
             padding-top: 6px; 
             font-size: 1.5em; 
             color: #000;
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum";
         }
 
         .total-box { background: #263238; color: white; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; }
@@ -127,10 +136,8 @@
 </div>
 
 <script>
-    /* 🔢 Denominaciones completas */
     const valoresDesc = [500, 200, 100, 50, 20, 10, 5, 2, 1, 0.50, 0.20, 0.10, 0.05, 0.02, 0.01];
 
-    /* 🔒 Limpieza automática de caracteres no numéricos */
     function limpiarInput(el) {
         el.value = el.value.replace(/[^0-9]/g, "");
     }
@@ -227,10 +234,14 @@
             let valorNum = parseFloat(v);
             let cantidad = datos[v];
             let subtotal = (valorNum * cantidad).toFixed(2);
+
+            // Separar decimales para estrecharlos
+            let [ent, dec] = subtotal.split(".");
+
             el.innerHTML += `
                 <div class="item-reparto">
-                    <span>${formatearEtiqueta(valorNum)} x ${cantidad}</span>
-                    <span class="item-val">${subtotal}</span>
+                    <span>${formatearEtiqueta(valorNum)}×${cantidad}</span>
+                    <span class="item-val">${ent}.<span class="dec">${dec}</span></span>
                 </div>`;
         });
     }
