@@ -107,6 +107,11 @@
 <script>
     const valoresDesc = [50, 20, 10, 5, 2, 1, 0.50, 0.20, 0.10, 0.05, 0.02, 0.01];
 
+    /* 🔒 Limpieza automática de caracteres no numéricos */
+    function limpiarInput(el) {
+        el.value = el.value.replace(/[^0-9]/g, "");
+    }
+
     function formatearEtiqueta(v) {
         if (v >= 1) return v + " €";
         return Math.round(v * 100) + " cts";
@@ -128,7 +133,9 @@
             <span class="label-text">${formatearEtiqueta(v)}</span>
             <div class="controls">
                 <button class="btn-qty" onclick="modificar('${v}', -1)">-</button>
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="val-${v}" value="" placeholder="0" oninput="calcular()">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" 
+                       id="val-${v}" value="" placeholder="0" 
+                       oninput="limpiarInput(this); calcular()">
                 <button class="btn-qty btn-plus" onclick="modificar('${v}', 1)">+</button>
             </div>`;
         container.appendChild(row);
