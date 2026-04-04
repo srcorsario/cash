@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Cierre de Caja - v1.22</title>
+    <title>Cierre de Caja - v1.23</title>
 
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #eceff1; padding: 10px; margin: 0; color: #37474f; }
@@ -39,11 +39,12 @@
 
         .reparto-title { font-weight: bold; text-align: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px; text-transform: uppercase; font-size: 0.75em; }
 
-        /* Línea completa alineada */
+        /* Línea completa alineada + espacio fijo entre columnas */
         .item-reparto {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px; /* ← ESPACIO FIJO ENTRE IZQUIERDA Y DERECHA */
             margin-bottom: 4px;
             font-family: 'Courier New', monospace;
             border-bottom: 1px dotted rgba(0,0,0,0.1);
@@ -92,7 +93,7 @@
 
 <div class="card">
     <h2>Cierre de Caja</h2>
-    <div class="version">v1.22</div>
+    <div class="version">v1.23</div>
 
     <select id="pvd" onchange="cambioPuntoVenta()">
         <option value="200">RG y UsOpen (Fondo 200€)</option>
