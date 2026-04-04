@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Cierre de Caja - v1.23</title>
+    <title>Cierre de Caja - v1.24</title>
 
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #eceff1; padding: 10px; margin: 0; color: #37474f; }
@@ -34,17 +34,28 @@
 
         .reparto-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .reparto-box { padding: 12px; border-radius: 10px; font-size: 0.82em; min-height: 120px; display: flex; flex-direction: column; }
+
         .box-fondo { background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; }
         .box-sobre { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; }
 
-        .reparto-title { font-weight: bold; text-align: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px; text-transform: uppercase; font-size: 0.75em; }
+        /* 🔥 NUEVOS TÍTULOS MÁS GRANDES */
+        .reparto-title {
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 4px;
+            text-transform: uppercase;
+            font-size: 1.05em;
+            letter-spacing: 0.5px;
+        }
 
         /* Línea completa alineada + espacio fijo entre columnas */
         .item-reparto {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px; /* ← ESPACIO FIJO ENTRE IZQUIERDA Y DERECHA */
+            gap: 12px;
             margin-bottom: 4px;
             font-family: 'Courier New', monospace;
             border-bottom: 1px dotted rgba(0,0,0,0.1);
@@ -53,7 +64,6 @@
             overflow: hidden;
         }
 
-        /* UNIDAD × CANTIDAD → GRANDE Y COMPACTO */
         .item-left {
             display: inline-flex;
             align-items: center;
@@ -63,7 +73,6 @@
             letter-spacing: 0;
         }
 
-        /* RESULTADO → MÁS PEQUEÑO */
         .item-val {
             font-weight: bold;
             font-size: 1.05em;
@@ -76,7 +85,6 @@
 
         .dec { font-size: 0.75em; opacity: 0.8; }
 
-        /* Si no cabe → reducir solo esa línea */
         .shrink .item-left { font-size: 1.05em !important; }
         .shrink .item-val { font-size: 0.9em !important; }
 
@@ -93,7 +101,7 @@
 
 <div class="card">
     <h2>Cierre de Caja</h2>
-    <div class="version">v1.23</div>
+    <div class="version">v1.24</div>
 
     <select id="pvd" onchange="cambioPuntoVenta()">
         <option value="200">RG y UsOpen (Fondo 200€)</option>
@@ -110,13 +118,13 @@
 
     <div class="reparto-container">
         <div class="reparto-box box-fondo">
-            <div class="reparto-title">Quedar en Caja</div>
+            <div class="reparto-title">Queda de fondo</div>
             <div id="lista-fondo" style="flex-grow: 1;"></div>
             <div class="suma-reparto" id="suma-fondo">0.00 €</div>
         </div>
 
         <div class="reparto-box box-sobre">
-            <div class="reparto-title">Meter al Sobre</div>
+            <div class="reparto-title">Sobre de arqueo</div>
             <div id="lista-sobre" style="flex-grow: 1;"></div>
             <div class="suma-reparto" id="suma-sobre">0.00 €</div>
         </div>
