@@ -17,11 +17,39 @@
         .label-text { font-weight: bold; font-size: 1.1em; flex: 1; }
         .controls { display: flex; align-items: center; gap: 8px; }
 
-        .btn-qty { width: 44px; height: 44px; border-radius: 8px; border: none; background: #e0e0e0; font-size: 1.4em; font-weight: bold; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        /* 🔥 Anti‑zoom iPhone en botones */
+        button {
+            font-size: 20px !important;
+            touch-action: manipulation;
+            -webkit-user-select: none;
+        }
+
+        .btn-qty { 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 8px; 
+            border: none; 
+            background: #e0e0e0; 
+            font-weight: bold; 
+            cursor: pointer; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
         .btn-plus { background: #81c784; color: white; }
         .btn-qty:active { opacity: 0.7; transform: scale(0.95); }
 
-        input { width: 65px; padding: 10px 0; border: 1px solid #cfd8dc; border-radius: 8px; text-align: center; font-size: 1.2em; font-weight: bold; background: white; color: #263238; }
+        /* Inputs sin zoom + teclado numérico */
+        input { 
+            width: 65px; 
+            padding: 10px 0; 
+            border: 1px solid #cfd8dc; 
+            border-radius: 8px; 
+            text-align: center; 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            background: white; 
+            color: #263238; 
+        }
 
         .reparto-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .reparto-box { padding: 12px; border-radius: 10px; font-size: 0.82em; min-height: 120px; display: flex; flex-direction: column; }
@@ -38,11 +66,6 @@
         .total-val { font-size: 1.8em; font-weight: bold; color: #81d4fa; display: block; }
 
         .btn-reset { width: 100%; background: #ef5350; color: white; border: none; padding: 15px; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-
-        /* 🔥 Anti‑zoom iPhone definitivo */
-        input, select, button {
-            font-size: 16px !important;
-        }
     </style>
 </head>
 
