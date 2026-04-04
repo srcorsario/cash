@@ -17,7 +17,6 @@
         .label-text { font-weight: bold; font-size: 1.1em; flex: 1; }
         .controls { display: flex; align-items: center; gap: 8px; }
 
-        /* 🔥 Anti‑zoom iPhone en botones */
         button {
             font-size: 20px !important;
             touch-action: manipulation;
@@ -38,7 +37,6 @@
         .btn-plus { background: #81c784; color: white; }
         .btn-qty:active { opacity: 0.7; transform: scale(0.95); }
 
-        /* Inputs sin zoom + teclado numérico */
         input { 
             width: 65px; 
             padding: 10px 0; 
@@ -58,7 +56,6 @@
 
         .reparto-title { font-weight: bold; text-align: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px; text-transform: uppercase; font-size: 0.75em; }
 
-        /* 🔥 Aumentamos tamaño de los importes + decimales estrechos */
         .item-reparto { 
             display: flex; 
             justify-content: space-between; 
@@ -143,8 +140,8 @@
     }
 
     function formatearEtiqueta(v) {
-        if (v >= 1) return v + " €";
-        return Math.round(v * 100) + " cts";
+        if (v >= 1) return v + "€";
+        return Math.round(v * 100) + "cts";
     }
 
     function inicializar() {
@@ -235,12 +232,11 @@
             let cantidad = datos[v];
             let subtotal = (valorNum * cantidad).toFixed(2);
 
-            // Separar decimales para estrecharlos
             let [ent, dec] = subtotal.split(".");
 
             el.innerHTML += `
                 <div class="item-reparto">
-                    <span>${formatearEtiqueta(valorNum)}×${cantidad}</span>
+                    <span>${formatearEtiqueta(valorNum)}&#8201;×&#8201;${cantidad}</span>
                     <span class="item-val">${ent}.<span class="dec">${dec}</span></span>
                 </div>`;
         });
