@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Cierre de Caja - Etiquetas Claras</title>
+    <title>Cierre de Caja - v1.21</title>
 
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #eceff1; padding: 10px; margin: 0; color: #37474f; }
         .card { background: white; padding: 15px; border-radius: 16px; max-width: 500px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        h2 { text-align: center; margin: 5px 0 15px; font-size: 1.2em; color: #263238; }
+
+        /* Título con versión */
+        h2 { 
+            text-align: center; 
+            margin: 5px 0 15px; 
+            font-size: 1.3em; 
+            color: #263238; 
+            font-weight: 900;
+        }
+        .version {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-size: 0.75em;
+            opacity: 0.6;
+        }
+
         select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #cfd8dc; font-size: 1.1em; font-weight: bold; background: #fff; outline: none; }
 
         .section-title { background: #546e7a; color: white; padding: 5px 10px; border-radius: 6px; font-size: 0.85em; font-weight: bold; margin: 15px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
@@ -56,7 +72,7 @@
 
         .reparto-title { font-weight: bold; text-align: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px; text-transform: uppercase; font-size: 0.75em; }
 
-        /* 🔥 UNIDAD × CANTIDAD → GRANDE */
+        /* Línea de reparto */
         .item-reparto {
             display: flex;
             justify-content: space-between;
@@ -64,15 +80,18 @@
             font-family: 'Courier New', monospace;
             border-bottom: 1px dotted rgba(0,0,0,0.1);
             padding: 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
+        /* UNIDAD × CANTIDAD → GRANDE */
         .item-left {
             font-size: 1.35em;
             font-weight: 700;
             color: #000;
         }
 
-        /* 🔥 RESULTADO → MÁS PEQUEÑO */
+        /* RESULTADO → MÁS PEQUEÑO */
         .item-val {
             font-weight: bold;
             font-size: 1.05em;
@@ -84,6 +103,14 @@
         .dec {
             font-size: 0.75em;
             opacity: 0.8;
+        }
+
+        /* Si la línea no cabe → se hace más pequeña */
+        .shrink .item-left {
+            font-size: 1.05em !important;
+        }
+        .shrink .item-val {
+            font-size: 0.9em !important;
         }
 
         .suma-reparto { 
@@ -109,6 +136,7 @@
 
 <div class="card">
     <h2>Cierre de Caja</h2>
+    <div class="version">v1.21</div>
 
     <select id="pvd" onchange="cambioPuntoVenta()">
         <option value="200">RG y UsOpen (Fondo 200€)</option>
@@ -242,11 +270,22 @@
 
             let [ent, dec] = subtotal.split(".");
 
-            el.innerHTML += `
-                <div class="item-reparto">
-                    <span class="item-left">${formatearEtiqueta(valorNum)}&#8201;×&#8201;${cantidad}</span>
-                    <span class="item-val">${ent}.<span class="dec">${dec}</span></span>
-                </div>`;
+            const div = document.createElement("div");
+            div.className = "item-reparto";
+
+            div.innerHTML = `
+                <span class="item-left">${formatearEtiqueta(valorNum)}&#8201;×&#8201;${cantidad}</span>
+                <span class="item-val">${ent}.<span class="dec">${dec}</span></span>
+            `;
+
+            el.appendChild(div);
+
+            // Si no cabe → reducir tamaño solo en esa línea
+            requestAnimationFrame(() => {
+                if (div.scrollWidth > div.clientWidth) {
+                    div.classList.add("shrink");
+                }
+            });
         });
     }
 
