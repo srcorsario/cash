@@ -3,27 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Cierre de Caja - v1.21</title>
+    <title>Cierre de Caja - v1.22</title>
 
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #eceff1; padding: 10px; margin: 0; color: #37474f; }
         .card { background: white; padding: 15px; border-radius: 16px; max-width: 500px; margin: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-        /* Título con versión */
-        h2 { 
-            text-align: center; 
-            margin: 5px 0 15px; 
-            font-size: 1.3em; 
-            color: #263238; 
-            font-weight: 900;
-        }
-        .version {
-            text-align: center;
-            margin-top: -10px;
-            margin-bottom: 15px;
-            font-size: 0.75em;
-            opacity: 0.6;
-        }
+        h2 { text-align: center; margin: 5px 0 5px; font-size: 1.3em; font-weight: 900; color: #263238; }
+        .version { text-align: center; font-size: 0.75em; opacity: 0.6; margin-bottom: 15px; }
 
         select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #cfd8dc; font-size: 1.1em; font-weight: bold; background: #fff; outline: none; }
 
@@ -39,31 +26,11 @@
             -webkit-user-select: none;
         }
 
-        .btn-qty { 
-            width: 44px; 
-            height: 44px; 
-            border-radius: 8px; 
-            border: none; 
-            background: #e0e0e0; 
-            font-weight: bold; 
-            cursor: pointer; 
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        .btn-qty { width: 44px; height: 44px; border-radius: 8px; border: none; background: #e0e0e0; font-weight: bold; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         .btn-plus { background: #81c784; color: white; }
         .btn-qty:active { opacity: 0.7; transform: scale(0.95); }
 
-        input { 
-            width: 65px; 
-            padding: 10px 0; 
-            border: 1px solid #cfd8dc; 
-            border-radius: 8px; 
-            text-align: center; 
-            font-size: 1.2em; 
-            font-weight: bold; 
-            background: white; 
-            color: #263238; 
-        }
+        input { width: 65px; padding: 10px 0; border: 1px solid #cfd8dc; border-radius: 8px; text-align: center; font-size: 1.2em; font-weight: bold; background: white; color: #263238; }
 
         .reparto-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .reparto-box { padding: 12px; border-radius: 10px; font-size: 0.82em; min-height: 120px; display: flex; flex-direction: column; }
@@ -72,10 +39,11 @@
 
         .reparto-title { font-weight: bold; text-align: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 4px; text-transform: uppercase; font-size: 0.75em; }
 
-        /* Línea de reparto */
+        /* Línea completa alineada */
         .item-reparto {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 4px;
             font-family: 'Courier New', monospace;
             border-bottom: 1px dotted rgba(0,0,0,0.1);
@@ -84,11 +52,14 @@
             overflow: hidden;
         }
 
-        /* UNIDAD × CANTIDAD → GRANDE */
+        /* UNIDAD × CANTIDAD → GRANDE Y COMPACTO */
         .item-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
             font-size: 1.35em;
             font-weight: 700;
-            color: #000;
+            letter-spacing: 0;
         }
 
         /* RESULTADO → MÁS PEQUEÑO */
@@ -98,32 +69,17 @@
             color: #000;
             font-variant-numeric: tabular-nums;
             font-feature-settings: "tnum";
+            display: flex;
+            align-items: center;
         }
 
-        .dec {
-            font-size: 0.75em;
-            opacity: 0.8;
-        }
+        .dec { font-size: 0.75em; opacity: 0.8; }
 
-        /* Si la línea no cabe → se hace más pequeña */
-        .shrink .item-left {
-            font-size: 1.05em !important;
-        }
-        .shrink .item-val {
-            font-size: 0.9em !important;
-        }
+        /* Si no cabe → reducir solo esa línea */
+        .shrink .item-left { font-size: 1.05em !important; }
+        .shrink .item-val { font-size: 0.9em !important; }
 
-        .suma-reparto { 
-            margin-top: auto; 
-            font-weight: 900; 
-            text-align: right; 
-            border-top: 2px solid rgba(0,0,0,0.1); 
-            padding-top: 6px; 
-            font-size: 1.5em; 
-            color: #000;
-            font-variant-numeric: tabular-nums;
-            font-feature-settings: "tnum";
-        }
+        .suma-reparto { margin-top: auto; font-weight: 900; text-align: right; border-top: 2px solid rgba(0,0,0,0.1); padding-top: 6px; font-size: 1.5em; color: #000; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
         .total-box { background: #263238; color: white; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; }
         .total-val { font-size: 1.8em; font-weight: bold; color: #81d4fa; display: block; }
@@ -136,7 +92,7 @@
 
 <div class="card">
     <h2>Cierre de Caja</h2>
-    <div class="version">v1.21</div>
+    <div class="version">v1.22</div>
 
     <select id="pvd" onchange="cambioPuntoVenta()">
         <option value="200">RG y UsOpen (Fondo 200€)</option>
@@ -280,7 +236,6 @@
 
             el.appendChild(div);
 
-            // Si no cabe → reducir tamaño solo en esa línea
             requestAnimationFrame(() => {
                 if (div.scrollWidth > div.clientWidth) {
                     div.classList.add("shrink");
