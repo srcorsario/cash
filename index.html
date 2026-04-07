@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Cierre de Caja - v1.24</title>
+    <title>Cierre de Caja - v1.26</title>
 
     <style>
         body { font-family: -apple-system, system-ui, sans-serif; background: #eceff1; padding: 10px; margin: 0; color: #37474f; }
@@ -12,7 +12,14 @@
         h2 { text-align: center; margin: 5px 0 5px; font-size: 1.3em; font-weight: 900; color: #263238; }
         .version { text-align: center; font-size: 0.75em; opacity: 0.6; margin-bottom: 15px; }
 
-        select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #cfd8dc; font-size: 1.1em; font-weight: bold; background: #fff; outline: none; }
+        select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 2px solid #cfd8dc; font-size: 1.1em; font-weight: bold; background: #fff; outline: none; }
+        
+        /* Estilo para el fondo personalizado */
+        #custom-fondo-input { 
+            width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 10px; 
+            border: 2px solid #81d4fa; font-size: 1.1em; text-align: center; 
+            font-weight: bold; box-sizing: border-box; display: none; 
+        }
 
         .section-title { background: #546e7a; color: white; padding: 5px 10px; border-radius: 6px; font-size: 0.85em; font-weight: bold; margin: 15px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -38,7 +45,6 @@
         .box-fondo { background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; }
         .box-sobre { background: #fff3e0; border: 1px solid #ffe0b2; color: #e65100; }
 
-        /* 🔥 NUEVOS TÍTULOS MÁS GRANDES */
         .reparto-title {
             font-weight: 900;
             text-align: center;
@@ -50,7 +56,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Línea completa alineada + espacio fijo entre columnas */
         .item-reparto {
             display: flex;
             justify-content: space-between;
@@ -70,7 +75,6 @@
             gap: 2px;
             font-size: 1.35em;
             font-weight: 700;
-            letter-spacing: 0;
         }
 
         .item-val {
@@ -78,7 +82,6 @@
             font-size: 1.05em;
             color: #000;
             font-variant-numeric: tabular-nums;
-            font-feature-settings: "tnum";
             display: flex;
             align-items: center;
         }
@@ -88,7 +91,7 @@
         .shrink .item-left { font-size: 1.05em !important; }
         .shrink .item-val { font-size: 0.9em !important; }
 
-        .suma-reparto { margin-top: auto; font-weight: 900; text-align: right; border-top: 2px solid rgba(0,0,0,0.1); padding-top: 6px; font-size: 1.5em; color: #000; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+        .suma-reparto { margin-top: auto; font-weight: 900; text-align: right; border-top: 2px solid rgba(0,0,0,0.1); padding-top: 6px; font-size: 1.5em; color: #000; }
 
         .total-box { background: #263238; color: white; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; }
         .total-val { font-size: 1.8em; font-weight: bold; color: #81d4fa; display: block; }
@@ -101,12 +104,15 @@
 
 <div class="card">
     <h2>Cierre de Caja</h2>
-    <div class="version">v1.25</div>
+    <div class="version">v1.26</div>
 
     <select id="pvd" onchange="cambioPuntoVenta()">
         <option value="200">UsOpen - RG - WB (Fondo 200€)</option>
         <option value="400">Cafetería - Club House (Fondo 400€)</option>
+        <option value="CUSTOM">Fondo Personalizado...</option>
     </select>
+    
+    <input type="number" id="custom-fondo-input" placeholder="Escribe el fondo en €" oninput="calcular()">
 
     <div id="monedas-container"><div class="section-title">Monedas</div></div>
     <div id="billetes-container"><div class="section-title">Billetes</div></div>
@@ -191,7 +197,17 @@
         totalContado = Math.round(totalContado * 100) / 100;
         document.getElementById('totalGeneral').innerText = totalContado.toFixed(2) + " €";
 
-        const fondoObjetivo = parseFloat(document.getElementById('pvd').value);
+        // Lógica de Fondo Personalizado
+        const pvdSelect = document.getElementById('pvd');
+        const customInput = document.getElementById('custom-fondo-input');
+        let fondoObjetivo = 0;
+
+        if (pvdSelect.value === "CUSTOM") {
+            fondoObjetivo = parseFloat(customInput.value) || 0;
+        } else {
+            fondoObjetivo = parseFloat(pvdSelect.value);
+        }
+
         let recaudacionObjetivo = Math.max(0, Math.round((totalContado - fondoObjetivo) * 100) / 100);
 
         let desgloseSobre = {};
@@ -232,32 +248,41 @@
             let valorNum = parseFloat(v);
             let cantidad = datos[v];
             let subtotal = (valorNum * cantidad).toFixed(2);
-
             let [ent, dec] = subtotal.split(".");
 
             const div = document.createElement("div");
             div.className = "item-reparto";
-
             div.innerHTML = `
                 <span class="item-left">${formatearEtiqueta(valorNum)}&#8201;×&#8201;${cantidad}</span>
                 <span class="item-val">${ent}.<span class="dec">${dec}</span></span>
             `;
-
             el.appendChild(div);
 
             requestAnimationFrame(() => {
-                if (div.scrollWidth > div.clientWidth) {
-                    div.classList.add("shrink");
-                }
+                if (div.scrollWidth > div.clientWidth) div.classList.add("shrink");
             });
         });
     }
 
-    function cambioPuntoVenta() { resetear(false); }
+    function cambioPuntoVenta() {
+        const pvdSelect = document.getElementById('pvd');
+        const customInput = document.getElementById('custom-fondo-input');
+        
+        if (pvdSelect.value === "CUSTOM") {
+            customInput.style.display = "block";
+            customInput.focus();
+        } else {
+            customInput.style.display = "none";
+            customInput.value = "";
+        }
+        resetear(false);
+    }
 
     function resetear(conf) {
         if (!conf || confirm("¿Borrar todos los datos actuales?")) {
-            document.querySelectorAll('input').forEach(i => i.value = "");
+            document.querySelectorAll('input').forEach(i => {
+                if(i.id !== 'custom-fondo-input' || conf) i.value = "";
+            });
             calcular();
             window.scrollTo(0,0);
         }
